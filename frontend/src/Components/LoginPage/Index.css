@@ -1,0 +1,29 @@
+.Tabs{
+    margin-top: 15vh;
+    margin-left: 35%;
+    width: 30%;
+    min-height: 450px;
+    background-color: #2f2e41;
+    border-bottom: solid 2px;
+    border-left: solid 2px;
+    border-right: solid 2px;
+    border-radius: 5px;
+    border-color: #704fd3;
+}
+
+.BotaoTab{
+    margin-top: 0%;
+    width: 49.9%;
+    height: auto;
+    border-top: solid 3px;
+    border-right: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    border-color: #704fd3;
+    background-color: #704fd3;
+}
+
+#Direita {
+    border-left: solid 0.2vh;
+    border-left-color: white;
+}
