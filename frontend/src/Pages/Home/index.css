@@ -1,2 +1,10 @@
 .Home {
+  width: 100%;
+  height: auto;
+}
+.Atual {
+  display: flex;
+}
+.LongoDoTempo {
+  display: flex;
 }

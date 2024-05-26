@@ -10,11 +10,7 @@ function Header() {
         <Link to="/">Logo</Link>
       </div>
       <div className="NavLinks">
-        <ul>
-          <li>
-            <Link to="/perfil">perfil</Link>
-          </li>
-        </ul>
+        <img src={IconPefil} alt="Perfil" />
       </div>
     </div>
   );
