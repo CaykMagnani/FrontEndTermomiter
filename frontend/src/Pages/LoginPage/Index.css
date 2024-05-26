@@ -1,0 +1,90 @@
+.Tabs {
+  width: 80vh;
+  max-width: 600px;
+  min-height: 70vh;
+  background-color: #191825;
+
+  border: 3px solid #704fd3;
+  border-top: 0;
+  border-radius: 5px;
+
+  margin: auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 425px) {
+  .Tabs {
+    width: 70vh;
+  }
+}
+
+@media (min-width: 1400px) {
+  .Tabs {
+    max-width: 1200px;
+  }
+}
+
+.BotaoTab {
+  margin-top: 0%;
+  width: 49.9%;
+  min-height: 40px;
+  height: auto;
+  border-top: solid 3px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-color: #704fd3;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#Direita {
+  border-left: solid 0.25vh;
+  border-left-color: white;
+}
+
+.ImageLoginPage {
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 5%;
+}
+
+.Formulario {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Label {
+  margin-bottom: 2px; /* Adicione um espaço entre a label e o input */
+  width: 350px;
+  max-width: 90%;
+  color: white;
+}
+
+.input {
+  width: 350px; /* Defina uma largura para o input */
+  max-width: 90%;
+  background-color: #191825;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  color: white;
+}
+
+.BotaoLogin {
+  font-size: large;
+  color: black;
+  width: 40%;
+  height: auto;
+  min-height: 40px;
+  background-color: #9f84d9;
+  border: 1px solid #ffffff;
+  border-top: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+p {
+  color: white;
+}

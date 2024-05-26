@@ -1,15 +1,22 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./Components/LoginPage";
-import Home from "./Components/Home";
+import LoginPage from "./Pages/LoginPage";
+import Home from "./Pages/Home";
 
 function RoutesApp() {
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={isLoggedIn ? <Navigate to="/" /> : <LoginPage />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
