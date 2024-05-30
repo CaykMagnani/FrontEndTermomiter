@@ -6,5 +6,5 @@ body {
   justify-content: center; /* Centraliza horizontalmente */
   align-items: center; /* Centraliza verticalmente */
   height: 100vh; /* Altura total da viewport */
-  background-color: #191825;
+  background-color: --background-color;
 }
