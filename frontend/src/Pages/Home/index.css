@@ -1,10 +1,97 @@
-.Home {
+/* Home.css */
+:root {
+  --primary-color: #704fd3;
+  --secondary-color: #ffffff;
+  --background-color: #191825;
+  --tertiary-color: #333;
+  --other-color: #865dff;
+  --text-color: #ffffff;
+  --box-shadow: 0 4px 8px #0000001a;
+  --border-radius: 8px;
+  --transition-duration: 0.3s;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  margin-top: 7%;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.current-display,
+.charts-display {
+  display: flex;
+  justify-content: space-around;
   width: 100%;
-  height: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-duration);
 }
-.Atual {
-  display: flex;
+
+.current-display {
+  flex-direction: column; /* Coluna por padrão para melhor legibilidade */
+  align-items: center;
 }
-.LongoDoTempo {
-  display: flex;
+
+.chart {
+  background-color: var(--background-color);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin: 10px 0;
+  width: 100%;
+  transition: all var(--transition-duration);
+  color: var(--text-color); /* Define a cor do texto dentro dos gráficos */
+}
+
+.chart:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .current-display {
+    flex-direction: row; /* Linha para telas maiores */
+  }
+
+  .charts-display {
+    flex-direction: row; /* Linha para telas maiores */
+  }
+
+  .chart {
+    margin: 0 10px;
+    width: calc(50% - 20px); /* Ajusta a largura para exibição lado a lado */
+  }
+}
+
+.chart p,
+.chart h1,
+.chart h2,
+.chart h3,
+.chart h4,
+.chart h5,
+.chart h6 {
+  color: var(
+    --text-color
+  ); /* Define a cor do texto para diferentes elementos */
+}
+
+p {
+  color: var(--text-color);
 }

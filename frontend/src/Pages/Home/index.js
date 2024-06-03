@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Header from "../../Components/Header";
+import Sidebar from "../../Components/SideBar";
 import HumidityChart from "../../Components/ChartHumidity";
 import TemperatureChart from "../../Components/ChartTemperature";
 import CurrentTemperatureDisplay from "../../Components/AtualTemperature";
@@ -21,15 +22,25 @@ function Home() {
 
   return (
     <>
-      <Header />
-      <div className="Home">
-        <div className="Atual">
-          <CurrentTemperatureDisplay />
-          <CurrentHumidityDisplay />
-        </div>
-        <div className="LongoDoTempo">
-          <HumidityChart data={humidityData} />
-          <TemperatureChart data={TemperatureData} />
+      <div className="container">
+        <Sidebar />
+        <div className="content">
+          <div className="current-display">
+            <div className="chart">
+              <CurrentTemperatureDisplay />
+            </div>
+            <div className="chart">
+              <CurrentHumidityDisplay />
+            </div>
+          </div>
+          <div className="charts-display">
+            <div className="chart">
+              <HumidityChart data={humidityData} />
+            </div>
+            <div className="chart">
+              <TemperatureChart data={TemperatureData} />
+            </div>
+          </div>
         </div>
       </div>
     </>

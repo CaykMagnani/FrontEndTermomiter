@@ -44,11 +44,22 @@ const TemperatureChart = () => {
     },
     title: {
       text: "Temperatura ao Longo do Tempo",
-      align: "left",
+      align: "center",
+      style: {
+        fontSize: "16px",
+        fontFamily: "Arial, sans-serif",
+        fontWeight: "bold",
+        color: "#ffffff", // Var(--text-color)
+      },
     },
     tooltip: {
       x: {
         format: "dd MMM yyyy",
+      },
+      theme: "dark", // Use 'dark' ou 'light' conforme a preferência
+      style: {
+        fontSize: "14px",
+        fontFamily: "Arial, sans-serif",
       },
     },
     legend: {

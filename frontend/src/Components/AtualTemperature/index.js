@@ -29,8 +29,8 @@ const CurrentTemperatureDisplay = () => {
 
   return (
     <div>
-      <h1>Temperatura Atual</h1>
-      <p>{temperature} °C</p>
+      <p>Temperatura Atual</p>
+      <h1 className="Descricao">{temperature} °C</h1>
     </div>
   );
 };

@@ -18,7 +18,7 @@ function LoginPage() {
 
     // Se isLoggedIn não estiver presente ou for falso, redirecione para a tela de login
     if (isLoggedIn || isLoggedIn === "true") {
-      navigate("/");
+      navigate("/dashboard");
     }
 
     setActiveTab("login");

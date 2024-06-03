@@ -1,0 +1,90 @@
+:root {
+  --transition-duration: 0.3s;
+  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.temperature-history {
+  padding-top: 80px;
+  margin-left: 220px;
+  height: calc(100vh - 80px);
+
+  padding: 20px;
+  max-width: 1000px;
+  color: #ffffff;
+}
+
+.temperature-history h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.temperature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.temperature-block {
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  width: calc(50% - 20px);
+  box-sizing: border-box;
+  text-align: center;
+  transition:
+    transform var(--transition-duration),
+    box-shadow var(--transition-duration);
+}
+
+.TemperaturaIcon {
+  height: 100px;
+}
+
+.temperature-block h2 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.temperature-block p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.temperature-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.load-more {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-duration),
+    transform var(--transition-duration);
+}
+
+.load-more:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 768px) {
+  .temperature-block {
+    width: 100%;
+  }
+}

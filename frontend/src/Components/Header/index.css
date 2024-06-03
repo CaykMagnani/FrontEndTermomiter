@@ -3,56 +3,50 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 6%;
-  background-color: #9f84d9;
+  height: 60px; /* Defina uma altura fixa para o header */
+  background-color: var(--tertiary-color);
   color: #fff;
-  padding: 10px 20px;
+  padding: 0 20px; /* Removi o padding superior/inferior */
   display: flex;
-  justify-content: space-between; /* Alinha itens para os lados */
-  align-items: center; /* Alinha itens verticalmente */
+  justify-content: space-between;
+  align-items: center;
   z-index: 1000;
+  box-shadow: var(--box-shadow);
+}
+
+.ImageLogin {
+  height: 100%; /* Alinha a altura da imagem com a altura do header */
+  max-height: 90px; /* Garante que a imagem não ultrapasse 40px de altura */
 }
 
 .Logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
+  display: flex;
+  align-items: center;
 }
 
 .NavLinks {
-  list-style: none;
-  margin-right: 5%;
-}
-
-.NavLinks ul {
   display: flex;
-  padding: 0;
+  align-items: center;
 }
 
-.NavLinks li {
-  margin-right: 20px;
-}
-
-.NavLinks li:last-child {
-  margin-right: 0;
-}
-
-.NavLinks li a {
-  text-decoration: none;
-  color: #fff;
-}
-
-.NavLinks li a:hover {
-  text-decoration: underline;
+.ProfileIcon {
+  height: 40px; /* Ajuste conforme necessário */
+  margin-right: 25px;
 }
 
 @media screen and (max-width: 768px) {
   .Header {
     flex-direction: column;
+    height: auto;
+    padding: 10px 20px;
   }
 
   .NavLinks {
     margin-top: 10px; /* Espaçamento entre logo e links */
+  }
+
+  .ImageLogin,
+  .ProfileIcon {
+    max-height: 30px; /* Ajuste para telas menores */
   }
 }

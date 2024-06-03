@@ -29,8 +29,8 @@ const CurrentHumidityDisplay = () => {
 
   return (
     <div>
-      <h1>Umidade Atual</h1>
-      <p>{humidity} %</p>
+      <p>Umidade Atual</p>
+      <h1 className="Descricao">{humidity} %</h1>
     </div>
   );
 };
