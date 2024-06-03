@@ -1,9 +1,10 @@
 /* Home.css */
 :root {
-  --primary-color: #3e3163;
+  --primary-color: #704fd3;
   --secondary-color: #ffffff;
   --background-color: #191825;
-  --tertiary-color: #704fd3;
+  --tertiary-color: #333;
+  --other-color: #865dff;
   --text-color: #ffffff;
   --box-shadow: 0 4px 8px #0000001a;
   --border-radius: 8px;
@@ -21,11 +22,11 @@ body {
 
 .container {
   display: flex;
-  margin-top: 20%; /* Deixe espaço para o header */
+  margin-top: 7%;
 }
 
 .content {
-  margin-left: 200px; /* Deixe espaço para a sidebar */
+  margin-left: 200px;
   padding: 20px;
   flex-grow: 1;
 }

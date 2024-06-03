@@ -22,7 +22,6 @@ function Home() {
 
   return (
     <>
-      <Header />
       <div className="container">
         <Sidebar />
         <div className="content">
