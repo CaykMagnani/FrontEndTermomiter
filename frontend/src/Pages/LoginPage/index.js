@@ -9,53 +9,37 @@ import "./Index.css";
 function LoginPage() {
   const [activeTab, setActiveTab] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(
-    sessionStorage.getItem("isLoggedIn") === "true" ? true : false,
+    sessionStorage.getItem("isLoggedIn") === "true",
   );
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-
-    // Se isLoggedIn não estiver presente ou for falso, redirecione para a tela de login
-    if (isLoggedIn || isLoggedIn === "true") {
+    if (isLoggedIn) {
       navigate("/dashboard");
+    } else {
+      setActiveTab("login");
     }
-
-    setActiveTab("login");
-    setCorBotaoDireito("#67558D");
-    setCorBotaoEsquerdo("#9F84D9");
-  }, [navigate]);
-
-  const [CorBotaoDireito, setCorBotaoDireito] = useState("#9F84D9");
-  const [CorBotaoEsquerdo, setCorBotaoEsquerdo] = useState("#9F84D9");
-
-  const handleClickEsquerda = () => {
-    setActiveTab("login");
-    setCorBotaoDireito("#67558D");
-    setCorBotaoEsquerdo("#9F84D9");
-  };
-
-  const handleClickDireita = () => {
-    setActiveTab("register");
-    setCorBotaoDireito("#9F84D9");
-    setCorBotaoEsquerdo("#67558D");
-  };
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="Tabs">
       <button
         className="BotaoTab"
         id="Esquerda"
-        style={{ backgroundColor: CorBotaoEsquerdo }}
-        onClick={handleClickEsquerda}
+        onClick={() => setActiveTab("login")}
+        style={{
+          backgroundColor: activeTab === "login" ? "#f6f2e9" : "#b48a40",
+        }}
       >
         Login
       </button>
       <button
         className="BotaoTab"
         id="Direita"
-        style={{ backgroundColor: CorBotaoDireito }}
-        onClick={handleClickDireita}
+        onClick={() => setActiveTab("register")}
+        style={{
+          backgroundColor: activeTab === "register" ? "#f6f2e9" : "#b48a40",
+        }}
       >
         Cadastrar
       </button>
@@ -71,14 +55,29 @@ function LoginForm({ setIsLoggedIn }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === "admin" && password === "admin") {
-      sessionStorage.setItem("isLoggedIn", "true");
-      setIsLoggedIn(true);
-      navigate("/");
-    } else {
-      setError("Credenciais inválidas");
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        sessionStorage.setItem("accessToken", data.accessToken);
+        sessionStorage.setItem("isLoggedIn", "true");
+        setIsLoggedIn(true);
+        navigate("/dashboard");
+      } else {
+        setError(data.message || "Credenciais inválidas");
+      }
+    } catch (error) {
+      setError("Erro de rede. Tente novamente.");
     }
   };
 
@@ -127,6 +126,7 @@ function LoginForm({ setIsLoggedIn }) {
             />
           </div>
         </div>
+        {error && <p className="error">{error}</p>}
         <div className="Formulario">
           <button type="submit" className="BotaoLogin">
             Entrar
@@ -142,23 +142,43 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmacaoSenha) {
+      setError("As senhas não coincidem");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: username, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess("Registro bem-sucedido! Você pode fazer login agora.");
+        setError("");
+      } else {
+        setError(data.message || "Erro ao registrar");
+      }
+    } catch (error) {
+      setError("Erro de rede. Tente novamente.");
+    }
+  };
 
   const [senhaVisivel, setSenhaVisivel] = useState(false);
 
   const toggleVisibilidadeSenha = () => {
     setSenhaVisivel(!senhaVisivel);
-  };
-
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (password !== confirmacaoSenha) {
-      setError("As senhas não coincidem");
-    } else {
-      setError("");
-    }
   };
 
   return (
@@ -170,7 +190,7 @@ function RegisterForm() {
       />
       <form onSubmit={handleSubmit}>
         <div className="Formulario">
-          <label className="Label">Digite seu nome</label>
+          <label className="Label">Digite seu nome:</label>
           <input
             className="input"
             type="text"
@@ -220,16 +240,17 @@ function RegisterForm() {
             <input
               className="input"
               type={senhaVisivel ? "text" : "password"}
-              placeholder="Senha:"
+              placeholder="Confirme a senha:"
               value={confirmacaoSenha}
               onChange={(e) => setConfirmacaoSenha(e.target.value)}
             />
           </div>
-          {error && <p>{error}</p>}
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">{success}</p>}
         </div>
         <div className="Formulario">
           <button type="submit" className="BotaoLogin">
-            Entrar
+            Cadastrar
           </button>
         </div>
       </form>

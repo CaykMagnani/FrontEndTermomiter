@@ -16,7 +16,7 @@ const HumidityChart = () => {
         enabled: false,
       },
     },
-    colors: ["#704fd3"],
+    colors: ["#4F8E04"],
     xaxis: {
       type: "datetime",
       categories: initialData.map((item) => item.date),
@@ -49,7 +49,7 @@ const HumidityChart = () => {
         fontSize: "16px",
         fontFamily: "Arial, sans-serif",
         fontWeight: "bold",
-        color: "#ffffff", // Var(--text-color)
+        color: "#4F8E04", // Var(--text-color)
       },
     },
     tooltip: {

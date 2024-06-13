@@ -33,7 +33,7 @@
   border-right: 0px;
   border-left: 0px;
   border-bottom: 0px;
-  border-color: #704fd3;
+  border-color: var(--tertiary-color);
   font-size: 25px;
   cursor: pointer;
 }
@@ -60,13 +60,13 @@
   margin-bottom: 2px; /* Adicione um espaço entre a label e o input */
   width: 350px;
   max-width: 90%;
-  color: white;
+  color: black;
 }
 
 .input {
   width: 350px; /* Defina uma largura para o input */
   max-width: 90%;
-  background-color: #191825;
+  background-color: var(--secondary-color);
   border: 1px solid #ffffff;
   border-radius: 3px;
   color: white;
@@ -78,7 +78,7 @@
   width: 40%;
   height: auto;
   min-height: 40px;
-  background-color: #9f84d9;
+  background-color: var(--tertiary-color);
   border: 1px solid #ffffff;
   border-top: 0;
   border-radius: 6px;
@@ -86,5 +86,5 @@
 }
 
 p {
-  color: white;
+  color: var(--text-color);
 }

@@ -1,11 +1,11 @@
 /* Home.css */
 :root {
-  --primary-color: #704fd3;
+  --primary-color: #b48a40;
   --secondary-color: #ffffff;
-  --background-color: #191825;
-  --tertiary-color: #333;
-  --other-color: #865dff;
-  --text-color: #ffffff;
+  --background-color: #f6f2e9;
+  --tertiary-color: #b48a40;
+  --other-color: #b48a40;
+  --text-color: #4f8e04;
   --box-shadow: 0 4px 8px #0000001a;
   --border-radius: 8px;
   --transition-duration: 0.3s;
@@ -87,6 +87,7 @@ body {
 .chart h4,
 .chart h5,
 .chart h6 {
+  font: bold;
   color: var(
     --text-color
   ); /* Define a cor do texto para diferentes elementos */
