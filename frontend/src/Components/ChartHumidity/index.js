@@ -1,3 +1,5 @@
+// HumidityChart.js
+
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 
@@ -99,10 +101,13 @@ const HumidityChart = () => {
     const fetchHumidityData = async () => {
       const data = await fetchHumidities();
       if (data) {
-        const categories = data.map((item) =>
-          new Date(`${item.date}T${item.time}`).getTime(),
+        const validData = data.filter(
+          (item) =>
+            !isNaN(Date.parse(`${item.date}T${item.time}`)) &&
+            !isNaN(parseFloat(item.humidity)),
         );
-        const humidityData = data.map((item) => parseFloat(item.humidity));
+        const categories = validData.map((item) => `${item.date}T${item.time}`);
+        const humidityData = validData.map((item) => parseFloat(item.humidity));
 
         setChartOptions((prevOptions) => ({
           ...prevOptions,

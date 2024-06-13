@@ -6,16 +6,38 @@ const CurrentHumidityDisplay = () => {
 
   useEffect(() => {
     const fetchCurrentHumidity = async () => {
+      const token = sessionStorage.getItem("accessToken");
+      if (!token) {
+        console.error("Token de acesso não encontrado.");
+        setLoading(false);
+        return;
+      }
+
       try {
-        //const response = await fetch(
-        //   "https://api.exemplo.com/current-humidity",
-        // );
-        // const data = await response.json();
-        const data = { humidity: 37 };
-        setHumidity(data.humidity); // Supondo que a resposta tenha uma propriedade `humidity`
+        const response = await fetch(
+          "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/humidities?latest=true",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Erro ao buscar a umidade atual:", errorData.message);
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+        console.log("Dados recebidos:", data);
+        setHumidity(data.humidity);
         setLoading(false);
       } catch (error) {
-        console.error("Erro ao buscar a umidade atual:", error);
+        console.error("Erro de rede ao buscar a umidade atual:", error);
         setLoading(false);
       }
     };
@@ -30,7 +52,7 @@ const CurrentHumidityDisplay = () => {
   return (
     <div>
       <p>Umidade Atual</p>
-      <h1 className="Descricao">{humidity} %</h1>
+      <h1 className="Descricao">{humidity}</h1>
     </div>
   );
 };

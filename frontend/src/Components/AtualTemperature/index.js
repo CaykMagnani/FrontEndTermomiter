@@ -6,16 +6,41 @@ const CurrentTemperatureDisplay = () => {
 
   useEffect(() => {
     const fetchCurrentTemperature = async () => {
+      const token = sessionStorage.getItem("accessToken");
+      if (!token) {
+        console.error("Token de acesso não encontrado.");
+        setLoading(false);
+        return;
+      }
+
       try {
-        // const response = await fetch(
-        //   "https://api.exemplo.com/current-temperature",
-        // );
-        // const data = await response.json();
-        const data = { temperature: 55 };
+        const response = await fetch(
+          "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/temperatures?latest=true",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error(
+            "Erro ao buscar a temperatura atual:",
+            errorData.message,
+          );
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+        console.log("Dados recebidos:", data);
         setTemperature(data.temperature);
         setLoading(false);
       } catch (error) {
-        console.error("Erro ao buscar a temperatura atual:", error);
+        console.error("Erro de rede ao buscar a temperatura atual:", error);
         setLoading(false);
       }
     };
@@ -30,7 +55,7 @@ const CurrentTemperatureDisplay = () => {
   return (
     <div>
       <p>Temperatura Atual</p>
-      <h1 className="Descricao">{temperature} °C</h1>
+      <h1 className="Descricao">{temperature}</h1>
     </div>
   );
 };

@@ -1,3 +1,5 @@
+// TemperatureChart.js
+
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 
@@ -99,10 +101,13 @@ const TemperatureChart = () => {
     const fetchTemperatureData = async () => {
       const data = await fetchTemperatures();
       if (data) {
-        const categories = data.map((item) =>
-          new Date(`${item.date}T${item.time}`).getTime(),
+        const validData = data.filter(
+          (item) =>
+            !isNaN(Date.parse(`${item.date}T${item.time}`)) &&
+            !isNaN(parseFloat(item.temperature)),
         );
-        const temperatureData = data.map((item) =>
+        const categories = validData.map((item) => `${item.date}T${item.time}`);
+        const temperatureData = validData.map((item) =>
           parseFloat(item.temperature),
         );
 

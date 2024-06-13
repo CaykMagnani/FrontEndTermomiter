@@ -1,54 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Sidebar from "../../Components/SideBar";
-import Humidity from "../../Midias/Humidity.svg";
+import HumidityIcon from "../../Midias/Humidity.svg";
 
-const fakeHumidityData = [
-  { date: "2023-06-01", Humidity: 25 },
-  { date: "2023-06-02", Humidity: 26 },
-  { date: "2023-06-03", Humidity: 27 },
-  { date: "2023-06-04", Humidity: 28 },
-  { date: "2023-06-05", Humidity: 29 },
-  { date: "2023-06-06", Humidity: 30 },
-  { date: "2023-06-07", Humidity: 31 },
-  { date: "2023-06-08", Humidity: 32 },
-  { date: "2023-06-09", Humidity: 33 },
-  { date: "2023-06-10", Humidity: 34 },
-  { date: "2023-06-11", Humidity: 35 },
-  { date: "2023-06-12", Humidity: 36 },
-  { date: "2023-06-13", Humidity: 37 },
-  { date: "2023-06-14", Humidity: 38 },
-  { date: "2023-06-15", Humidity: 39 },
-  { date: "2023-06-16", Humidity: 40 },
-];
-
-function HumidityHistory() {
+const HumidityHistory = () => {
+  const [humidityData, setHumidityData] = useState([]);
   const [visibleRecords, setVisibleRecords] = useState(10);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHumidityData = async () => {
+      const token = sessionStorage.getItem("accessToken");
+      if (!token) {
+        setError("Token de acesso não encontrado.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/humidities",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          setError(errorData.message || "Erro ao buscar dados de umidade.");
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+        setHumidityData(data);
+        setLoading(false);
+      } catch (error) {
+        setError("Erro de rede ao buscar dados de umidade.");
+        setLoading(false);
+      }
+    };
+
+    fetchHumidityData();
+  }, []);
 
   const handleLoadMore = () => {
     setVisibleRecords((prevVisibleRecords) => prevVisibleRecords + 10);
   };
 
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="Humidity-history">
       <Sidebar />
-      <h1>Histórico de Humidade</h1>
+      <h1>Histórico de Umidade</h1>
       <div className="Humidity-list">
-        {fakeHumidityData.slice(0, visibleRecords).map((record, index) => (
+        {humidityData.slice(0, visibleRecords).map((record, index) => (
           <div key={index} className="Humidity-block">
-            <img src={Humidity} alt="HumidityIcon" className="HumidityIcon" />
+            <img
+              src={HumidityIcon}
+              alt="umidadeIcon"
+              className="HumidityIcon"
+            />
             <h2>{record.date}</h2>
-            <p>{record.Humidity}%</p>
+            <p>{record.humidity}%</p>
           </div>
         ))}
       </div>
-      {visibleRecords < fakeHumidityData.length && (
+      {visibleRecords < humidityData.length && (
         <button className="load-more" onClick={handleLoadMore}>
           Carregar mais registros
         </button>
       )}
     </div>
   );
-}
+};
 
 export default HumidityHistory;
