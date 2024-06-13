@@ -34,7 +34,7 @@ $ npm start
 
 ## Deploy
 <p>O site está hospedado na Vercel e está disponível no link:</p>
-<p><a href="https://front-end-termomiter.vercel.app/login">Link Dashboard</a></br></p>
+<p><a href="https://front-end-termomiter.vercel.app/login">Link Front End</a></br></p>
 
 ## Desenvolvido
 <p>Todo o projeto foi desenvolvido pelos alunos: </br></p>
