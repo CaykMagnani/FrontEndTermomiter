@@ -50,7 +50,7 @@ function LoginPage() {
 }
 
 function LoginForm({ setIsLoggedIn }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -58,18 +58,21 @@ function LoginForm({ setIsLoggedIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         },
-        body: JSON.stringify({ username, password }),
-      });
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        sessionStorage.setItem("accessToken", data.accessToken);
+        sessionStorage.setItem("accessToken", data.token);
         sessionStorage.setItem("isLoggedIn", "true");
         setIsLoggedIn(true);
         navigate("/dashboard");
@@ -95,10 +98,10 @@ function LoginForm({ setIsLoggedIn }) {
           <label className="Label">Digite seu E-mail:</label>
           <input
             className="input"
-            type="text"
+            type="email"
             placeholder="Email:"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="Formulario">
@@ -138,7 +141,7 @@ function LoginForm({ setIsLoggedIn }) {
 }
 
 function RegisterForm() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
@@ -154,13 +157,16 @@ function RegisterForm() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
         },
-        body: JSON.stringify({ name: username, email, password }),
-      });
+      );
 
       const data = await response.json();
 
@@ -195,8 +201,8 @@ function RegisterForm() {
             className="input"
             type="text"
             placeholder="Nome:"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="Formulario">
@@ -256,6 +262,58 @@ function RegisterForm() {
       </form>
     </div>
   );
+}
+
+async function fetchTemperatures() {
+  const token = sessionStorage.getItem("accessToken");
+  try {
+    const response = await fetch(
+      "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/temperatures",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.error("Erro ao buscar temperaturas:", data.message);
+    }
+  } catch (error) {
+    console.error("Erro de rede ao buscar temperaturas:", error);
+  }
+  return null;
+}
+
+async function fetchHumidities() {
+  const token = sessionStorage.getItem("accessToken");
+  try {
+    const response = await fetch(
+      "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/humidities",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.error("Erro ao buscar umidades:", data.message);
+    }
+  } catch (error) {
+    console.error("Erro de rede ao buscar umidades:", error);
+  }
+  return null;
 }
 
 export default LoginPage;

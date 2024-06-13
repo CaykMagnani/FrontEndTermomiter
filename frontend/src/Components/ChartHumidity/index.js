@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 
+async function fetchHumidities() {
+  const token = sessionStorage.getItem("accessToken");
+  try {
+    const response = await fetch(
+      "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/humidities",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.error("Erro ao buscar umidades:", data.message);
+    }
+  } catch (error) {
+    console.error("Erro de rede ao buscar umidades:", error);
+  }
+  return null;
+}
+
 const HumidityChart = () => {
-  const initialData = [
-    { date: "2024-05-20", humidity: 20 },
-    { date: "2024-05-21", humidity: 24 },
-    { date: "2024-05-22", humidity: 22 },
-    { date: "2024-05-23", humidity: 26 },
-    // Adicione mais dados conforme necessário
-  ];
   const [chartOptions, setChartOptions] = useState({
     chart: {
       type: "line",
@@ -19,7 +38,6 @@ const HumidityChart = () => {
     colors: ["#4F8E04"],
     xaxis: {
       type: "datetime",
-      categories: initialData.map((item) => item.date),
       labels: {
         datetimeFormatter: {
           year: "yyyy",
@@ -49,14 +67,14 @@ const HumidityChart = () => {
         fontSize: "16px",
         fontFamily: "Arial, sans-serif",
         fontWeight: "bold",
-        color: "#4F8E04", // Var(--text-color)
+        color: "#4F8E04",
       },
     },
     tooltip: {
       x: {
         format: "dd MMM yyyy",
       },
-      theme: "dark", // Use 'dark' ou 'light' conforme a preferência
+      theme: "dark",
       style: {
         fontSize: "14px",
         fontFamily: "Arial, sans-serif",
@@ -75,36 +93,32 @@ const HumidityChart = () => {
     },
   });
 
-  const [series, setSeries] = useState([
-    {
-      name: "Umidade",
-      data: initialData.map((item) => item.humidity),
-    },
-  ]);
+  const [series, setSeries] = useState([]);
 
   useEffect(() => {
     const fetchHumidityData = async () => {
-      // const response = await fetch('https://api.exemplo.com/humidity');
-      // const data = await response.json();
-      const data = initialData; //apagar depois que consumir a API
+      const data = await fetchHumidities();
+      if (data) {
+        const categories = data.map((item) =>
+          new Date(`${item.date}T${item.time}`).getTime(),
+        );
+        const humidityData = data.map((item) => parseFloat(item.humidity));
 
-      const categories = data.map((item) => item.date);
-      const humidityData = data.map((item) => item.humidity);
+        setChartOptions((prevOptions) => ({
+          ...prevOptions,
+          xaxis: {
+            ...prevOptions.xaxis,
+            categories: categories,
+          },
+        }));
 
-      setChartOptions((prevOptions) => ({
-        ...prevOptions,
-        xaxis: {
-          ...prevOptions.xaxis,
-          categories: categories,
-        },
-      }));
-
-      setSeries([
-        {
-          name: "Umidade",
-          data: humidityData,
-        },
-      ]);
+        setSeries([
+          {
+            name: "Umidade",
+            data: humidityData,
+          },
+        ]);
+      }
     };
 
     fetchHumidityData();
