@@ -1,33 +1,5 @@
-// HumidityChart.js
-
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-
-async function fetchHumidities() {
-  const token = sessionStorage.getItem("accessToken");
-  try {
-    const response = await fetch(
-      "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/humidities",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      console.error("Erro ao buscar umidades:", data.message);
-    }
-  } catch (error) {
-    console.error("Erro de rede ao buscar umidades:", error);
-  }
-  return null;
-}
 
 const HumidityChart = () => {
   const [chartOptions, setChartOptions] = useState({
@@ -74,7 +46,7 @@ const HumidityChart = () => {
     },
     tooltip: {
       x: {
-        format: "dd MMM yyyy",
+        format: "dd MMM yyyy HH:mm",
       },
       theme: "dark",
       style: {
@@ -95,39 +67,33 @@ const HumidityChart = () => {
     },
   });
 
-  const [series, setSeries] = useState([]);
-
-  useEffect(() => {
-    const fetchHumidityData = async () => {
-      const data = await fetchHumidities();
-      if (data) {
-        const validData = data.filter(
-          (item) =>
-            !isNaN(Date.parse(`${item.date}T${item.time}`)) &&
-            !isNaN(parseFloat(item.humidity)),
-        );
-        const categories = validData.map((item) => `${item.date}T${item.time}`);
-        const humidityData = validData.map((item) => parseFloat(item.humidity));
-
-        setChartOptions((prevOptions) => ({
-          ...prevOptions,
-          xaxis: {
-            ...prevOptions.xaxis,
-            categories: categories,
-          },
-        }));
-
-        setSeries([
-          {
-            name: "Umidade",
-            data: humidityData,
-          },
-        ]);
-      }
-    };
-
-    fetchHumidityData();
-  }, []);
+  const [series, setSeries] = useState([
+    {
+      name: "Umidade",
+      data: [
+        {
+          x: 1618414800000,
+          y: 50,
+        },
+        {
+          x: 1618501200000,
+          y: 60,
+        },
+        {
+          x: 1618587600000,
+          y: 55,
+        },
+        {
+          x: 1618674000000,
+          y: 65,
+        },
+        {
+          x: 1618760400000,
+          y: 70,
+        },
+      ],
+    },
+  ]);
 
   return (
     <div>

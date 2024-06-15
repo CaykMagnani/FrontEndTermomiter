@@ -1,33 +1,5 @@
-// TemperatureChart.js
-
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-
-async function fetchTemperatures() {
-  const token = sessionStorage.getItem("accessToken");
-  try {
-    const response = await fetch(
-      "https://backendt-pi-quarto-semestre-v2.onrender.com/v1/temperatures",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      console.error("Erro ao buscar temperaturas:", data.message);
-    }
-  } catch (error) {
-    console.error("Erro de rede ao buscar temperaturas:", error);
-  }
-  return null;
-}
 
 const TemperatureChart = () => {
   const [chartOptions, setChartOptions] = useState({
@@ -95,41 +67,41 @@ const TemperatureChart = () => {
     },
   });
 
-  const [series, setSeries] = useState([]);
-
-  useEffect(() => {
-    const fetchTemperatureData = async () => {
-      const data = await fetchTemperatures();
-      if (data) {
-        const validData = data.filter(
-          (item) =>
-            !isNaN(Date.parse(`${item.date}T${item.time}`)) &&
-            !isNaN(parseFloat(item.temperature)),
-        );
-        const categories = validData.map((item) => `${item.date}T${item.time}`);
-        const temperatureData = validData.map((item) =>
-          parseFloat(item.temperature),
-        );
-
-        setChartOptions((prevOptions) => ({
-          ...prevOptions,
-          xaxis: {
-            ...prevOptions.xaxis,
-            categories: categories,
-          },
-        }));
-
-        setSeries([
-          {
-            name: "Temperatura",
-            data: temperatureData,
-          },
-        ]);
-      }
-    };
-
-    fetchTemperatureData();
-  }, []);
+  const [series, setSeries] = useState([
+    {
+      name: "Temperatura",
+      data: [
+        {
+          x: new Date("2024-06-01T00:00:00Z").getTime(),
+          y: 19,
+        },
+        {
+          x: new Date("2024-06-01T01:00:00Z").getTime(),
+          y: 21.8,
+        },
+        {
+          x: new Date("2024-06-01T02:00:00Z").getTime(),
+          y: 22,
+        },
+        {
+          x: new Date("2024-06-01T03:00:00Z").getTime(),
+          y: 29.7,
+        },
+        {
+          x: new Date("2024-06-01T04:00:00Z").getTime(),
+          y: 25.8,
+        },
+        {
+          x: new Date("2024-06-01T05:00:00Z").getTime(),
+          y: 19.5,
+        },
+        {
+          x: new Date("2024-06-01T06:00:00Z").getTime(),
+          y: 26,
+        },
+      ],
+    },
+  ]);
 
   return (
     <div>

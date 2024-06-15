@@ -35,10 +35,10 @@ function Home() {
           </div>
           <div className="charts-display">
             <div className="chart">
-              <HumidityChart data={humidityData} />
+              <HumidityChart />
             </div>
             <div className="chart">
-              <TemperatureChart data={TemperatureData} />
+              <TemperatureChart />
             </div>
           </div>
         </div>
